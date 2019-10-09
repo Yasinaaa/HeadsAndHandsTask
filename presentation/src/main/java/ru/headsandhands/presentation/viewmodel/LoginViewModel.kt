@@ -9,8 +9,9 @@ import ru.headsandhands.presentation.view.LoggedInUserView
 import ru.headsandhandstask.domain.LoginFormState
 import ru.headsandhands.presentation.view.LoginResult
 import ru.headsandhandstask.presentation.R
+import ru.headsandhands.data.LoginRepository
 
-class LoginViewModel(private val loginRepository: ru.headsandhands.data.LoginRepository) : ViewModel() {
+class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
 
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = _loginForm

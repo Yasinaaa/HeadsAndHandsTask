@@ -8,6 +8,8 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
@@ -21,6 +23,10 @@ import ru.headsandhands.presentation.view.LoggedInUserView
 import ru.headsandhands.presentation.viewmodel.LoginViewModel
 import ru.headsandhands.presentation.viewmodel.LoginViewModelFactory
 import ru.headsandhandstask.presentation.R
+import android.text.style.ForegroundColorSpan
+import android.text.SpannableString
+import android.graphics.Color
+
 
 class LoginActivity : AppCompatActivity() {
 
@@ -31,13 +37,14 @@ class LoginActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_login)
 
-        val username = findViewById<EditText>(R.id.username)
-        val password = findViewById<EditText>(R.id.password)
-        val login = findViewById<Button>(R.id.login)
-        val loading = findViewById<ProgressBar>(R.id.loading)
+        val username = findViewById<EditText>(R.id.et_email)
+        val password = findViewById<EditText>(R.id.et_password)
+        val login = findViewById<Button>(R.id.btn_sign_in)
+        val loading = findViewById<ProgressBar>(R.id.pb)
         val appBar = findViewById<AppBarLayout>(R.id.app_bar)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
+        toolbar.inflateMenu(R.menu.menu_login)
 
         loginViewModel = ViewModelProviders.of(this, LoginViewModelFactory())
                 .get(LoginViewModel::class.java)
@@ -49,10 +56,10 @@ class LoginActivity : AppCompatActivity() {
             login.isEnabled = loginState.isDataValid
 
             if (loginState.usernameError != null) {
-                username.error = getString(loginState.usernameError!!)
+                username.setError(getString(loginState.usernameError!!), null)
             }
             if (loginState.passwordError != null) {
-                password.error = getString(loginState.passwordError!!)
+                password.setError(getString(loginState.passwordError!!), null)
             }
         })
 
@@ -118,6 +125,29 @@ class LoginActivity : AppCompatActivity() {
 
     private fun showLoginFailed(@StringRes errorString: Int) {
         Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_login, menu)
+
+//        val item = menu.findItem(R.id.item_create)
+//        val s = SpannableString("My red")
+//        s.setSpan(ForegroundColorSpan(Color.RED), 0, s.length, 0)
+//        item.title = s
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_create -> {
+
+            }
+            else -> {
+            }
+        }
+        return true
     }
 }
 
